@@ -17,9 +17,9 @@ class AppLayout(BoxLayout):
 
     def generate_word(self):
         word = random.choice(self.words)
-        self.word_left.text = word[0]
-        self.word_right.text = word[1]
-        self.word_full.text = word[0] + word[1]
+        self.word_full.text = word[0]
+        self.word_left.text = word[1]
+        self.word_right.text = word[2]
 
     def increase_nguyenam(self):
         if int(self.level.text) >= self.word_list.level_max:

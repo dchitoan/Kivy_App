@@ -1,62 +1,71 @@
 #:kivy 2.0
 <AppLayout>:
+    bg_color_top: 130/255,235/255,235/255,0.8
+    bg_color_bot: 0/255,180/255,200/255,0.9
     word_full: word_full
     word_left: word_left
     word_right: word_right
     level: level_label
+    orientation: "vertical"
+    size: root.width, root.height
+    canvas:
+        Color:
+            rgba: root.bg_color_top
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    Label: # full-word
+        id: word_full
+        text: "-"
+        font_size : 100
+        size: 0.5,0.5
+        color : 216/255, 45/255, 115/255 #
+    BoxLayout:
+        size: 0.3,0.3
+        orientation: "horizontal"
+        Label: # phụ âm
+            id: word_left
+            text:"-"
+            font_size : 80
+            color : 0.9, 0.5, 0
+        Label: # nguyên âm
+            id: word_right
+            text:"-"
+            font_size : 80
+            color : 0.9, 0.5, 0
     BoxLayout:
         orientation: "vertical"
-        size: root.width, root.height
-        Label:
-            id: word_full
-            text: "-"
-            font_size : 100
-            size: 0.5,0.5
-            color : 0.9, 0.5, 0
+        canvas:
+            Color:
+                rgba: root.bg_color_bot
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        padding:10
+        spacing:10
         BoxLayout:
-            size: 0.3,0.3
             orientation: "horizontal"
-            Label:
-                id: word_left
-                text:"-"
-                font_size : 80
-            Label:
-                id: word_right
-                text:"-"
-                font_size : 80
-        BoxLayout:
-            orientation: "vertical"
-            canvas:
-                Color:
-                    rgba: 160/255,160/255,160/255,1
-                Rectangle:
-                    pos: self.pos
-                    size: self.size
-            padding:10
-            spacing:10
-            BoxLayout:
-                orientation: "horizontal"
-                RoundedButton:
-                    text:"+"
-                    color : 1, 1, 1,1
-                    font_size : 100
-                    on_press: root.increase_nguyenam()
-                Label:
-                    id: level_label
-                    text:"-"
-                    font_size : 60
-                    color: 0,0,153,1
-                RoundedButton:
-                    text:"-"
-                    color : 1, 1, 1,1
-                    font_size : 100
-                    on_press: root.decrease_nguyenam()
             RoundedButton:
-                text: "Chữ Khác"
-                font_size : 30
-                pos_hint: {'center_x':0.5,'center_y':0.5}
-                size_hint: (1,1)
-                on_press: root.generate_word()
+                text:"+"
+                color : 1, 1, 1,1
+                font_size : 100
+                on_press: root.increase_nguyenam()
+            Label:
+                id: level_label
+                text:"-"
+                font_size : 60
+                color: 0,0,153,1
+            RoundedButton:
+                text:"-"
+                color : 1, 1, 1,1
+                font_size : 100
+                on_press: root.decrease_nguyenam()
+        RoundedButton:
+            text: "Chữ Khác"
+            font_size : 30
+            pos_hint: {'center_x':0.5,'center_y':0.5}
+            size_hint: (1,1)
+            on_press: root.generate_word()
 
 <RoundedButton@Button>
     background_color: (0,0,0,0)

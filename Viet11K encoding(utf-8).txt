@@ -1359,7 +1359,6 @@ càu nhàu
 cáu
 cáu kỉnh
 cáu tiết
-caught
 cay
 cay đắng
 cay độc
@@ -6034,7 +6033,6 @@ minh châu
 minh họa
 minh mẫn
 mình
-mistake
 mít
 mò
 mỏ
@@ -6248,7 +6246,6 @@ nấu ăn
 nẻ
 né
 né tránh
-needly
 nem
 ném
 nén

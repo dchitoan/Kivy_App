@@ -1,6 +1,8 @@
 filename = "./Viet11K encoding(utf-8).txt"
 # filename = "./Viet74K encoding(utf-8).txt"
 
+import re
+
 
 def suitable(word_string: str) -> bool:
     return ("-" not in word_string) and (" " not in word_string)
@@ -8,23 +10,45 @@ def suitable(word_string: str) -> bool:
 
 def break_word(word_string: str) -> str:
     if not word_string:
-        return ["", ""]
+        return ["", "", ""]
     if word_string[:2] in "gi gì gí gỉ gĩ gị qu":
-        return [word_string[:2], word_string[2:]]
-    nguyen_am = "a á à ả ạ ã, ă ắ ằ ẳ ẵ ặ, â ấ ầ ẩ ẫ ậ, e é è ẻ ẽ ẹ, ê ế ề ể ễ ệ, i í ì ỉ ĩ ị, o ó ò ỏ õ ọ, ô ố ồ ổ ỗ ộ, ơ ớ ờ ở ỡ ợ , u ú ù ủ ũ ụ , ư ứ ừ ử ữ ự, y ý ỳ ỷ ỹ ỵ"
-    for i in range(len(word_string)):
-        if word_string[i] in nguyen_am:
-            break
-    return (word_string[:i], word_string[i:-1])
+        i = 2
+    else:
+        nguyen_am_chuan = (
+            "aáàảạãăắằẳẵặâấầẩẫậeéèẻẽẹêếềểễệiíìỉĩịoóòỏõọôốồổỗộơớờởỡợuúùủũụưứừửữựyýỳỷỹỵ"
+        )
+        for i in range(len(word_string)):
+            if word_string[i] in nguyen_am_chuan:
+                break
+    phu_am = word_string[:i]
+    nguyen_am = remove_dau_thanh(word_string[i:])
+    return (word_string, phu_am, nguyen_am)
+
+
+def remove_dau_thanh(u_str):
+    INTAB = "aạảãàáâậầấẩẫăắằặẳẵoóòọõỏôộổỗồốơờớợởỡeéèẻẹẽêếềệểễuúùụủũưựữửừứiíìịỉĩyýỳỷỵỹ"
+    OUTTAB = "aaaaaaââââââăăăăăăooooooôôôôôôơơơơơơeeeeeeêêêêêêuuuuuuưưưưưưiiiiiiyyyyyy"
+    r = re.compile("|".join(INTAB))
+    replaces_dict = dict(zip(INTAB, OUTTAB))
+    return r.sub(lambda m: replaces_dict[m.group(0)], u_str)
 
 
 class Word_List:
     def __init__(self) -> None:
         with open(filename, "r", encoding="utf-8") as file:
-            word_list = file.readlines()
+            word_list = file.read().split()
         self.word_list = [break_word(word) for word in word_list if suitable(word)]
-        self.level_max = max([len(nguyenam) for _, nguyenam in self.word_list])
+        self.level_max = max([len(nguyenam) for _, _, nguyenam in self.word_list])
 
-    def get_list(self, level):
-        _list = [word for word in self.word_list if len(word[1]) <= level]
+    def get_list(self, level=0):
+        if level == 0:
+            level = self.level_max
+        _list = [word for word in self.word_list if len(word[2]) <= level]
         return _list
+
+
+# wl = Word_List()
+# words = wl.get_list()
+# print([word for word in words if len(word[2]) == wl.level_max])
+# print(wl.level_max)
+# print(len(words))
